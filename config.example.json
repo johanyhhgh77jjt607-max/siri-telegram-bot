@@ -1,0 +1,23 @@
+{
+  "telegram_token": "YOUR_TELEGRAM_BOT_TOKEN",
+  "bot_name": "Yeahsowubot",
+  "models": {
+    "gemini": {
+      "api_key": "YOUR_GEMINI_API_KEY",
+      "model": "gemini-2.0-flash"
+    },
+    "groq": {
+      "api_key": "YOUR_GROQ_API_KEY",
+      "model": "llama-3.3-70b-versatile"
+    },
+    "openrouter": {
+      "api_key": "YOUR_OPENROUTER_API_KEY",
+      "base_url": "https://openrouter.ai/api/v1",
+      "models": {
+        "gpt4o": "openai/gpt-4o",
+        "claude": "anthropic/claude-3.5-sonnet",
+        "gemini": "google/gemini-2.5-flash"
+      }
+    }
+  }
+}

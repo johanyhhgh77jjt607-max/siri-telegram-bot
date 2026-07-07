@@ -8,15 +8,15 @@ from storage import StorageManager
 
 
 # SUSPICIOUS_PATTERNS = [
-    r"download.*(?:video|vid|mp4|film|movie|serie)",
-    r"تحميل.*(?:فيديو|مسلٳل|فيلم|اغنية|اغاني*",
-    r"bypass|تجاوز|تخطي",
-    r"crack|كراك|باتش",
-    r"generate.*(?:password|كلمة.*سر|pass)",
-    r"fake|مزيف|مزورة",
-    r"free.*(?:premium|stars|نجوم|diamond)",
-    r"مجاني.*(?:*بريميوم|نجوم|ماس))",
-]
+#     r"download.*(?:video|vid|mp4|film|movie|serie)",
+#     r"تحميل.*(?:فيديو|مسلسل|فيلم|اغنية|اغاني)",
+#     r"bypass|تجاوز|تخطي",
+#     r"crack|كراك|باتش",
+#     r"generate.*(?:password|كلمة.*سر|pass)",
+#     r"fake|مزيف|مزورة",
+#     r"free.*(?:premium|stars|نجوم|diamond)",
+#     r"مجاني.*(?:بريميوم|نجوم|ماس)",
+# ]
 
 
 class RateLimiter:
@@ -68,10 +68,6 @@ def check_safety_keywords(text: str, storage: StorageManager) -> tuple:
     return True, ""
 
 def is_suspicious(text: str) -> bool:
-    text_lower = text.lower()
-    for pattern in SUSPICIOUS_PATTERNS:
-        if re.search(pattern, text_lower):
-            return True
     return False
 
 async def check_safety_ai(text: str, groq_client) -> tuple:

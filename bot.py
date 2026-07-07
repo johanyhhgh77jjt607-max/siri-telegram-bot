@@ -196,11 +196,16 @@ if __name__ == "__main__":
         sys.exit(1)
     mode = "polling"
     duration = 110
+    no_stop = False
     for i, arg in enumerate(sys.argv):
         if arg == "--mode" and i + 1 < len(sys.argv):
             mode = sys.argv[i + 1]
         if arg.startswith("--duration="):
             duration = int(arg.split("=")[1])
+        if arg == "--no-stop":
+            no_stop = True
+    if no_stop:
+        duration = 86400 * 365
     if mode == "webhook":
         asyncio.run(run_webhook(config))
     else:

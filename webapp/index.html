@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#1a1a2e;--card:#16213e;--accent:#0f3460;--gold:#e94560;--text:#eee;--text2:#aaa;--btn:#0f3460;--btn2:#e94560}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px}
+h1{text-align:center;font-size:20px;margin-bottom:6px;color:var(--gold)}
+.sub{text-align:center;color:var(--text2);font-size:13px;margin-bottom:16px}
+.card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:16px}
+.label{font-size:14px;color:var(--text2);margin-bottom:8px;display:block}
+textarea,input,select{width:100%;background:var(--bg);border:1px solid var(--accent);border-radius:12px;padding:14px;color:var(--text);font-size:15px;font-family:monospace;resize:vertical;min-height:120px}
+select{min-height:auto;appearance:none;cursor:pointer}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.btn{background:var(--btn);color:var(--text);border:none;border-radius:12px;padding:14px;font-size:15px;cursor:pointer;transition:.2s;font-weight:600}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.btn.primary{background:var(--btn2)}
+.btn.full{grid-column:1/-1}
+#status{text-align:center;margin-top:12px;font-size:14px;color:var(--text2)}
+#result{background:var(--card);border-radius:16px;padding:20px;margin-top:16px;display:none}
+#result .title{font-size:16px;color:var(--gold);margin-bottom:12px}
+#result pre{background:var(--bg);border-radius:8px;padding:12px;overflow-x:auto;font-size:13px;white-space:pre-wrap;word-break:break-all;direction:ltr;text-align:left}
+</style>
+</head>
+<body>
+<h1>🤖 Siri Bot</h1>
+<div class="sub">اختر المهمة</div>
+
+<div class="card">
+<label class="label">📝 الصق الكود هنا</label>
+<textarea id="code" placeholder="الصق كود Python هنا..."></textarea>
+<div class="btn-row">
+<button class="btn" onclick="send('analyze')">🔍 شرح</button>
+<button class="btn" onclick="send('optimize')">⚡ تحسين</button>
+<button class="btn" onclick="send('fix')">🔧 إصلاح</button>
+<button class="btn" onclick="send('explain')">📖 تفصيل</button>
+</div>
+</div>
+
+<div class="card">
+<label class="label">🎨 وصف الصورة</label>
+<textarea id="img-prompt" placeholder="اكتب وصف الصورة..." style="min-height:60px"></textarea>
+<button class="btn primary full" onclick="sendImage()" style="margin-top:8px">🎨 ارسم</button>
+</div>
+
+<div id="status"></div>
+
+<script>
+(function() {
+  try {
+    var tw = window.Telegram.WebApp;
+    tw.ready();
+    tw.expand();
+    tw.MainButton.hide();
+    tw.BackButton.hide();
+    window._tw = tw;
+  } catch(e) {
+    console.error("Telegram WebApp init error:", e);
+  }
+})();
+
+function send(action) {
+  var code = document.getElementById('code').value.trim();
+  if (!code) {
+    document.getElementById('status').textContent = '⚠️ الرجاء لصق الكود أولاً';
+    return;
+  }
+  document.getElementById('status').textContent = '⏳ جاري المعالجة...';
+  try {
+    window._tw.sendData(JSON.stringify({type:'code',action:action,code:code}));
+    window._tw.close();
+  } catch(e) {
+    document.getElementById('status').textContent = '❌ خطأ: ' + e.message;
+  }
+}
+
+function sendImage() {
+  var prompt = document.getElementById('img-prompt').value.trim();
+  if (!prompt) {
+    document.getElementById('status').textContent = '⚠️ اكتب وصف الصورة';
+    return;
+  }
+  document.getElementById('status').textContent = '⏳ جاري الرسم...';
+  try {
+    window._tw.sendData(JSON.stringify({type:'image',prompt:prompt}));
+    window._tw.close();
+  } catch(e) {
+    document.getElementById('status').textContent = '❌ خطأ: ' + e.message;
+  }
+}
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"3279d41ec7804124a29acc6e692f9a2b","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#1a1a2e;--card:#16213e;--gold:#e94560;--text:#eee;--green:#00c853}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px;text-align:center}
+h1{font-size:24px;margin:40px 0 10px;color:var(--gold)}
+.btn{background:var(--green);color:#fff;border:none;border-radius:14px;padding:18px 40px;font-size:18px;font-weight:700;cursor:pointer;margin:20px}
+#status{margin-top:20px;font-size:16px;color:#aaa}
+</style>
+</head>
+<body>
+<h1>🧪 اختبار WebApp → Bot</h1>
+<p style="color:#aaa">اضغط الزر لاختبار الاتصال</p>
+<button class="btn" onclick="test()">🔔 إرسال PING للبوت</button>
+<div id="status"></div>
+
+<script>
+(function() {
+  try {
+    var tw = window.Telegram.WebApp;
+    tw.ready();
+    tw.expand();
+    tw.MainButton.hide();
+    tw.BackButton.hide();
+    window._tw = tw;
+  } catch(e) {
+    document.getElementById('status').textContent = '❌ فشل تهيئة WebApp: ' + e.message;
+  }
+})();
+
+function test() {
+  document.getElementById('status').textContent = '⏳ جاري إرسال PING...';
+  try {
+    window._tw.sendData(JSON.stringify({type:'ping'}));
+    window._tw.close();
+  } catch(e) {
+    document.getElementById('status').textContent = '❌ خطأ: ' + e.message;
+  }
+}
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"3279d41ec7804124a29acc6e692f9a2b","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
